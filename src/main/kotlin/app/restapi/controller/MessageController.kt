@@ -1,7 +1,9 @@
-package demo
+package app.restapi.controller
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+
+import app.restapi.data.Message
 
 @RestController
 class MessageResource {
@@ -13,4 +15,3 @@ class MessageResource {
     )
 }
 
-data class Message(val id: String?, val text: String)
