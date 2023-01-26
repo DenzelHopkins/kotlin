@@ -1,17 +1,31 @@
 package app.restapi.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import app.restapi.data.*
+import app.restapi.request.MessageRequest
+import org.springframework.http.HttpStatus
 
-import app.restapi.data.Message
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class MessageResource {
-    @GetMapping("/")
-    fun index(): List<Message> = listOf(
-        Message("1", "Hello!"),
-        Message("2", "Bonjour!"),
-        Message("3", "Privet!"),
-    )
+@RequestMapping("/messages")
+class MessageController (
+    private val messageRepository: MessageRepository
+) {
+    @GetMapping
+    fun getAllMessages(): ResponseEntity<List<Message>> {
+        val messages = messageRepository.findAll()
+        return ResponseEntity.ok(messages)
+    }
+
+    @PostMapping
+    fun createMessage(@RequestBody request: MessageRequest): ResponseEntity<Message> {
+        val message = messageRepository.save(Message(
+            name = request.name,
+            description = request.description
+        ))
+        return ResponseEntity(message, HttpStatus.CREATED)
+    }
+
 }
 
