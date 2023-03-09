@@ -11,20 +11,31 @@
 
 ## Docker
 ### Build docker image
-> docker build -t kotlin_web_api .
+> docker build -t kotlin .
 
 ### Run docker container
->docker run -p 8080:8080 kotlin_web_api
+> docker run -p 1000:1000 kotlin
+
+### Login to docker registry
+<strong>Important</strong>: Saved environment variable $CR_PAT is needed.
+
+> echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+
+### Tag docker image
+> docker tag kotlin ghcr.io/denzelhopkins/kotlin:latest
+
+### Push docker image
+> docker push ghcr.io/denzelhopkins/kotlin:latest
 
 ## Test REST
 
 ### Get all messages
 
-> curl localhost:8090/messages
+> curl localhost:1000/messages
 
 ### Post one message
 
 > curl --header "Content-Type: application/json" \
 --request POST \
 --data '{"name":"xyz","description":"xyz"}' \
-http://localhost:8090/messages
+http://localhost:1000/messages
